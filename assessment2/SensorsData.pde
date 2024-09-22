@@ -4,7 +4,7 @@ import java.util.*;
 
 
 public class SensorData{
-//========================================================================================================================================================================================================
+//======================================================================================================================================
 //Declarations Start
 private String subSensor[];
 private Table oxygenTable;
@@ -33,8 +33,7 @@ private String values[]={
 "ES_B_12_431_7BC2"
 };
 //String subSensor[]={"O2","CO2","VOC","HUMA"};
-//========================================================================================================================================================================================================
-//Declaration End
+//=====================================================================================================================================
 
 public SensorData() {
         // Initialize building sensors map
@@ -56,7 +55,7 @@ public String urlData(String passedBuildingSensor,String passedSensorName){
   String url = "https://eif-research.feit.uts.edu.au/api/csv/?rFromDate=2024-08-01T00%3A00&rToDate=2024-08-30T23%3A59&rFamily=wasp&rSensor="+building_Sensor+"&rSubSensor="+passedSensorName+"";  
   return url;
 }
-//========================================================================================================================================================================================================
+//======================================================================================================================================
 // pass the value array to be downSampled
 public float[] downSample(float originalData[],int newSize ){
  
@@ -72,7 +71,7 @@ public float[] downSample(float originalData[],int newSize ){
 }
 
 //Start of data function
-//========================================================================================================================================================================================================
+//=====================================================================================================================================
 //This is the actual function which will be called in the main Function
 public float[][] Data(String buildingNum)
 /*Here we need to pass BuildingNumber which is 
@@ -160,10 +159,10 @@ for(int i =0; i<=(humidityTable.getRowCount())-1;i++){
  float[][] sensorData = sensor.Data("B06418");  // Pass the desired building number as an argument       ||
                                                                                                          ||
 // Access the sensor data (oxygen, CO2, hydrocarbons, humidity)                                          ||
-float[] dsOxygen = sensorData[0][];       // Oxygen data                                                   ||
-float[] dsCo2 = sensorData[1][];          // CO2 data                                                      ||
-float[] dsHydroCarbon = sensorData[2][];  // Hydrocarbon data                                              ||
-float[] dsHumidity = sensorData[3][];     // Humidity data                                                 ||
+float[] dsOxygen = sensorData[0][];       // Oxygen data                                                 ||
+float[] dsCo2 = sensorData[1][];          // CO2 data                                                    ||
+float[] dsHydroCarbon = sensorData[2][];  // Hydrocarbon data                                            ||
+float[] dsHumidity = sensorData[3][];     // Humidity data                                               ||
                                                                                                          ||
 //=======================================================================================================||
  

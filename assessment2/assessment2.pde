@@ -4,8 +4,8 @@ SensorData sensorData;
 void setup(){
     size(800, 800, P3D);
     sensorData = new SensorData();
-    float[][] data = sensorData.Data("B06418");
-  println(data[0].length);
+    float[][] data = sensorData.Data("B06418");//This is the function call
+  println(data[0].length);  // This is test to print the first row of Oxygen data
     for(int i= 0;i<=sensorData.sampleSize-1;i++){
        
       println(data[0][i]);
