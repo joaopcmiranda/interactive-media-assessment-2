@@ -1,25 +1,25 @@
+
 import java.util.HashMap;
 import java.util.*;
 
 
-
+public class SensorData{
 //========================================================================================================================================================================================================
 //Declarations Start
-String subSensor[];
-Table oxygenTable;
-Table co2Table;
-Table hydrocarbonTable;
-Table humidityTable;
-int sampleSize=200;//increase this number to get more rows
-float [] dsHumidity=new float[sampleSize];
-float [] dsOxygen=new float[sampleSize];
-float [] dsCo2=new float[sampleSize];
-float [] dsHydroCarbon=new float[sampleSize];
+private String subSensor[];
+private Table oxygenTable;
+private Table co2Table;
+private Table hydrocarbonTable;
+private Table humidityTable;
+public int sampleSize=200;//increase this number to get more rows
+private float [] dsHumidity=new float[sampleSize];
+private float [] dsOxygen=new float[sampleSize];
+private float [] dsCo2=new float[sampleSize];
+private float [] dsHydroCarbon=new float[sampleSize];
 //float oxygenValue[],co2Value[],hydrocarbonValue[],humidityValue[];
-HashMap<String,String> buildingSensor =new HashMap<String,String>();
-HashMap<String,String> sensorName =new HashMap<String,String>();
-String keys[]={"B05","B06418","B08","B01","B06419","B07","B08","B04","B13","B11","B12","B15"};
-String values[]={
+private HashMap<String,String> buildingSensor =new HashMap<String,String>();
+private String keys[]={"B05","B06418","B08","B01","B06419","B07","B08","B04","B13","B11","B12","B15"};
+private String values[]={
  "ES_B_05_416_7C15",
 "ES_B_06_418_7BED",
 "ES_B_08_423_7BE2",
@@ -36,6 +36,12 @@ String values[]={
 //========================================================================================================================================================================================================
 //Declaration End
 
+public SensorData() {
+        // Initialize building sensors map
+        for (int i = 0; i < values.length; i++) {
+            buildingSensor.put(keys[i], values[i]);
+        }
+    }
 /*Processing URL based on the Building Number and Sensor Name
 The var passedBuildingSensor and passed SensorName can be confusing but they are
 basically what we passed in our data function, but i wanted URL processing to be outside
@@ -43,15 +49,16 @@ and not in the actual function
 */
 //API CALL URL FUNCTION
 //========================================================================================================================================================================================================
-String urlData(String passedBuildingSensor,String passedSensorName){
+public String urlData(String passedBuildingSensor,String passedSensorName){
   
-  String building_Sensor=buildingSensor.get(""+passedBuildingSensor);
+   String building_Sensor = buildingSensor.get(passedBuildingSensor);
  // String sensor_Name=sensorName.get(""+passedSensorName);
   String url = "https://eif-research.feit.uts.edu.au/api/csv/?rFromDate=2024-08-01T00%3A00&rToDate=2024-08-30T23%3A59&rFamily=wasp&rSensor="+building_Sensor+"&rSubSensor="+passedSensorName+"";  
   return url;
 }
+//========================================================================================================================================================================================================
 // pass the value array to be downSampled
-float[] downSample(float originalData[],int newSize ){
+public float[] downSample(float originalData[],int newSize ){
  
   float [] result=new float[newSize];
   float factor = float(originalData.length)/newSize;
@@ -67,7 +74,7 @@ float[] downSample(float originalData[],int newSize ){
 //Start of data function
 //========================================================================================================================================================================================================
 //This is the actual function which will be called in the main Function
-float[][] Data(String buildingNum)
+public float[][] Data(String buildingNum)
 /*Here we need to pass BuildingNumber which is 
 "B06418","B08","B01","B06419","B07","08","04","13","11"
 the function is gonna return arrays of floats and integers with values in it
@@ -136,7 +143,7 @@ for(int i =0; i<=(humidityTable.getRowCount())-1;i++){
       result[2]=dsHydroCarbon;
       result[3]=dsHumidity;
       
-      println(result[0]);
+      //println(result[0]);
      return result;
  }
  /* The function will return a 2d array having 4 rows and 200 columns 
@@ -148,13 +155,15 @@ for(int i =0; i<=(humidityTable.getRowCount())-1;i++){
  
 //=======================================================================================================|| 
 //Use the following Format to get the desired Data                                                       ||
- float[][] sensorData = Data("B06418");  // Pass the desired building number as an argument              ||
+                                                                                                         ||
+ SensorData sensor= new SensorData();                                                                    ||
+ float[][] sensorData = sensor.Data("B06418");  // Pass the desired building number as an argument       ||
                                                                                                          ||
 // Access the sensor data (oxygen, CO2, hydrocarbons, humidity)                                          ||
-float[] dsOxygen = sensorData[0];       // Oxygen data                                                   ||
-float[] dsCo2 = sensorData[1];          // CO2 data                                                      ||
-float[] dsHydroCarbon = sensorData[2];  // Hydrocarbon data                                              ||
-float[] dsHumidity = sensorData[3];     // Humidity data                                                 ||
+float[] dsOxygen = sensorData[0][];       // Oxygen data                                                   ||
+float[] dsCo2 = sensorData[1][];          // CO2 data                                                      ||
+float[] dsHydroCarbon = sensorData[2][];  // Hydrocarbon data                                              ||
+float[] dsHumidity = sensorData[3][];     // Humidity data                                                 ||
                                                                                                          ||
 //=======================================================================================================||
  
@@ -164,17 +173,18 @@ float[] dsHumidity = sensorData[3];     // Humidity data                        
  */
 
 
-void setup() {
-  // Initialize the data
-  Data("B05"); // This will populate the HashMaps
+//void setup() {
+//  // Initialize the data
+//  Data("B05"); // This will populate the HashMaps
   
-  // Test UrlData by passing valid buildingSensor and sensorName values
-  //String testUrl = urlData("B06418", "HUMA");
+//  // Test UrlData by passing valid buildingSensor and sensorName values
+//  //String testUrl = urlData("B06418", "HUMA");
   
-  // Print the returned URL to check if it's constructed properly
-  //println("Generated URL: " + testUrl);
-}
+//  // Print the returned URL to check if it's constructed properly
+//  //println("Generated URL: " + testUrl);
+//}
 
-void draw() {
-  // Your draw code if needed
+//void draw() {
+//  // Your draw code if needed
+//}
 }
