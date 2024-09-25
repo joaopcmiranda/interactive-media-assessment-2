@@ -9,15 +9,17 @@ void setup() {
   i <= sensorData.sampleSize - 1;
   i++) {
     println(data[0][i]);
-
   }
+
+SensorDataObject d[] = new SensorDataObject[3];
+
+  d[0] = new SensorDataObject(1, 1, data[0], data[1], data[2], data[3]);
+  d[1] = new SensorDataObject(7, 2, data[0], data[1], data[2], data[3]);
+  d[2] = new SensorDataObject(12, 3, data[0], data[1], data[2], data[3]);
+
+
+  new ColorField(d, width, height);
 }
 
 void draw() {
-  // rotate a 3d cube in space
-  background(255);
-  translate(width / 2, height / 2, 0);
-  rotateX(frameCount * 0.01);
-  rotateY(frameCount * 0.01);
-  box(200);
 }
