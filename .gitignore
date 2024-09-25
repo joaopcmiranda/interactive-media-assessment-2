@@ -2,3 +2,5 @@
 .DS_Store
 
 assessment2/out/
+
+*.autosave
