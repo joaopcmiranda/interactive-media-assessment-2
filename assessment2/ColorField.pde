@@ -33,7 +33,7 @@ class ColorField {
   void heldDown() {
     for (int i = 0; i<points.length; i++) {
       //this was to see where the points were
-      //rect(points[i].x, points[i].y, 5, 5);
+      ellipse(points[i].x, points[i].y, 5, 5);
       float sX = points[i].x;
       float sY = points[i].y;
       float o2 = sensorData[i].o2[(int)(timePercentage *(sensorData[i].o2.length - 1))];
@@ -42,7 +42,7 @@ class ColorField {
       float humidity = sensorData[i].humidity[(int)(timePercentage *(sensorData[i].humidity.length - 1))];
       int level = sensorData[i].level;
       PFont font = createFont("arial", 15);
-      
+
       // see values box and text
       if (mousePressed&&(abs(sX-mouseX)*abs(sX-mouseX)+ abs(sY-mouseY)*abs(sY-mouseY) <= 50*50) ) {
         float mw = 140;
@@ -51,7 +51,7 @@ class ColorField {
         float my = constrain(mouseY-4-(mh)/2, 30+mh/2, height-30-mh/2);
         float tx = constrain(mouseX+mw/60, 30+mw/24, width-30-mw+mw/24);
         float ty = constrain(mouseY-mh/3-4-(mh)/2, 30+(mh*1.5)/10, height-(mh)/3-30-mh/2);
-
+        textAlign(LEFT);
         //println(my, mx);
         rectMode(CENTER);
         fill(150, 180);
