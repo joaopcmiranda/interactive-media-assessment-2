@@ -1,23 +1,44 @@
+import controlP5.*;
 import beads.*;
 import java.io.File;
 import java.util.ArrayList;
 
+ControlP5 cp5;
 SensorData sensorData;
 ColorField colorField;
 SoundController soundController; // Add SoundController reference
 ArrayList<float[][]> data;
 String keys[] = {"B05", "B06418", "B08", "B01", "B06419", "B07", "B08", "B04", "B11", "B12"};
-int level[] = {5, 6, 8, 1, 6, 7, 8, 4, 13, 11, 12};
+int level[] = { 5, 6, 8, 1, 6, 7, 8, 4, 13, 11, 12 };
 
 // A list of threads for parallel fetching
 ArrayList<FetchThread> threads = new ArrayList<FetchThread>();
+//String floor = keys[1];
+
+//for slider
+float timePercentage =0;
+boolean pause = false;
 
 void setup() {
   size(800, 800, P3D);
+  PFont sliderF = createFont("arial",15);
   
+  //timeline slider
+  cp5 = new ControlP5(this);
+  cp5.addSlider("timePercentage")
+  .setLabel("Timeline")
+  .setValue(timePercentage)
+    .setPosition(width*0.3, height-100)
+    .setSize(int(width*0.4), 30)
+    .setFont(sliderF)
+    .setColorActive(color(193, 20, 34, 230))
+    .setColorForeground(color(90, 33, 51,140))
+    .setColorBackground(color(220, 150))
+    .setRange(0, 1);
+  sensorData = new SensorData();
+  data = new ArrayList<float[][]>();
   sensorData = new SensorData();
   soundController = new SoundController(); // Initialise SoundController
-  data = new ArrayList<float[][]>();
 
   // Start parallel fetching for each key
   for (int i = 0; i < keys.length; i++) {
@@ -25,16 +46,16 @@ void setup() {
     threads.add(fetchThread);
     fetchThread.start();
   }
-  
   // Wait for all threads to finish fetching
   for (FetchThread thread : threads) {
     try {
-      thread.join(); // Wait for this thread to finish
-    } catch (InterruptedException e) {
+      thread.join();  // Wait for this thread to finish
+    }
+
+    catch(InterruptedException e) {
       e.printStackTrace();
     }
   }
-  
   // Once all threads are done, process the fetched data
   SensorDataObject[] d = new SensorDataObject[data.size()];
   for (int i = 0; i < data.size(); i++) {
@@ -45,10 +66,15 @@ void setup() {
 
 void draw() {
   background(0);
-  
-  // Calculate time percentage for color rendering
-  float timePercentage = (millis() % 10000) / 10000.0;
+  //pause when space is pressed
+  if (!pause) {
+    timePercentage =(millis() % 10000) / 10000.0;
+  }
   colorField.paintColorField(timePercentage);
+  
+  //update slider value
+  cp5.getController("timePercentage").setValue(timePercentage);
+  colorField.heldDown();
 
   // extract CO2 data from the first sensor and update the sound volume
   if (colorField.sensorData.length > 0) {
@@ -78,5 +104,11 @@ class FetchThread extends Thread {
       data.add(result);  // Add fetched data to the shared list
     }
     println("Data fetched for " + key);
+  }
+}
+
+void keyPressed(){
+  if(key == ' '){
+    pause = !pause;
   }
 }
