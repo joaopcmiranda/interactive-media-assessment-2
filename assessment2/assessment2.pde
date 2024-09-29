@@ -1,8 +1,12 @@
 import controlP5.*;
-ControlP5 cp5;
+import beads.*;
+import java.io.File;
+import java.util.ArrayList;
 
+ControlP5 cp5;
 SensorData sensorData;
 ColorField colorField;
+SoundController soundController; // Add SoundController reference
 ArrayList<float[][]> data;
 String keys[] = {"B05", "B06418", "B08", "B01", "B06419", "B07", "B08", "B04", "B11", "B12"};
 int level[] = { 5, 6, 8, 1, 6, 7, 8, 4, 13, 11, 12 };
@@ -35,6 +39,8 @@ void setup() {
     .setRange(0, 1);
   sensorData = new SensorData();
   data = new ArrayList<float[][]>();
+  sensorData = new SensorData();
+  soundController = new SoundController(); // Initialise SoundController
 
   // Start parallel fetching for each key
   for (int i = 0; i < keys.length; i++) {
@@ -75,6 +81,15 @@ void draw() {
   textFont(fontT);
   textAlign(CENTER);
   text("Time is set as a fraction of the total duration.\nPause time with 'space'.", width/2, height-50);
+
+  // extract CO2 data from the first sensor and update the sound volume
+  if (colorField.sensorData.length > 0) {
+    float[] co2Data = colorField.sensorData[0].co2; //get CO2 data from the first sensor
+    float co2Level = co2Data[(int)(timePercentage * (co2Data.length - 1))]; //get the CO2 level based on time
+    soundController.updateVolume(co2Level); //update the volume based on CO2 level
+  }
+  
+  soundController.smoothVolume(); // gadually change the actual volume
 }
 
 // Thread class to fetch data in parallel
