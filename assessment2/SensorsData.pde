@@ -31,6 +31,36 @@ private String values[]={
 "ES_B_11_428_3EA4",
 "ES_B_12_431_7BC2"
 };
+private String fromDate = "2024-09-23T22:53:16.804";
+private String toDate = "2024-09-27T22:53:16.804";
+
+
+// Function to get the date and time string based on the percentage
+
+String getTimeString(float percentage) {
+  try {
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+
+    Date startDate = dateFormat.parse(fromDate);
+    Date endDate = dateFormat.parse(toDate);
+
+    long timeDifference = endDate.getTime() - startDate.getTime();
+
+    long calculatedTime =(long)(percentage * timeDifference);
+
+    Date resultDate = new Date(startDate.getTime() + calculatedTime);
+
+    return dateFormat.format(resultDate);
+
+  }
+
+  catch(Exception e) {
+    e.printStackTrace();
+    return null;
+  }
+}
+
+
 //String subSensor[]={"O2","CO2","VOC","HUMA"};
 //=====================================================================================================================================
 
@@ -52,7 +82,7 @@ public String urlData(String passedBuildingSensor,String passedSensorName){
    String building_Sensor = buildingSensor.get(passedBuildingSensor);
  // String sensor_Name=sensorName.get(""+passedSensorName);
 
-  String url = "https://eif-research.feit.uts.edu.au/api/csv/?rFromDate=2024-09-26T22:53:16.804&rToDate=2024-09-29T22:53:16.804%3A59&rFamily=wasp&rSensor="+building_Sensor+"&rSubSensor="+passedSensorName+"";  
+  String url = "https://eif-research.feit.uts.edu.au/api/csv/?rFromDate="+fromDate+"&rToDate="+toDate+"%3A59&rFamily=wasp&rSensor="+building_Sensor+"&rSubSensor="+passedSensorName+"";  
   return url;
 }
 //======================================================================================================================================
