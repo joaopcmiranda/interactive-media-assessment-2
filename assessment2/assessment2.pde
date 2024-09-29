@@ -15,20 +15,22 @@ ArrayList<FetchThread> threads = new ArrayList<FetchThread>();
 float timePercentage =0;
 boolean pause = false;
 
+
+
 void setup() {
   size(800, 800, P3D);
-  PFont sliderF = createFont("arial",15);
-  
+  PFont sliderF = createFont("arial", 15);
+
   //timeline slider
   cp5 = new ControlP5(this);
   cp5.addSlider("timePercentage")
-  .setLabel("Timeline")
-  .setValue(timePercentage)
+    .setLabel("Time")
+    .setValue(timePercentage)
     .setPosition(width*0.3, height-100)
     .setSize(int(width*0.4), 30)
     .setFont(sliderF)
     .setColorActive(color(193, 20, 34, 230))
-    .setColorForeground(color(90, 33, 51,140))
+    .setColorForeground(color(90, 33, 51, 140))
     .setColorBackground(color(220, 150))
     .setRange(0, 1);
   sensorData = new SensorData();
@@ -65,11 +67,14 @@ void draw() {
     timePercentage =(millis() % 10000) / 10000.0;
   }
   colorField.paintColorField(timePercentage);
-  
+
   //update slider value
   cp5.getController("timePercentage").setValue(timePercentage);
   colorField.heldDown();
-
+  PFont fontT = createFont("arial", 13);
+  textFont(fontT);
+  textAlign(CENTER);
+  text("Time is set as a fraction of the total duration.\nPause time with 'space'.", width/2, height-50);
 }
 
 // Thread class to fetch data in parallel
@@ -93,8 +98,8 @@ class FetchThread extends Thread {
   }
 }
 
-void keyPressed(){
-  if(key == ' '){
+void keyPressed() {
+  if (key == ' ') {
     pause = !pause;
   }
 }
