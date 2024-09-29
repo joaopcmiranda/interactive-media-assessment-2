@@ -12,11 +12,10 @@ private Table co2Table;
 private Table hydrocarbonTable;
 private Table humidityTable;
 public int sampleSize=200;//increase this number to get more rows
-private float [] dsHumidity=new float[sampleSize];
 private float [] dsOxygen=new float[sampleSize];
 private float [] dsCo2=new float[sampleSize];
 private float [] dsHydroCarbon=new float[sampleSize];
-//float oxygenValue[],co2Value[],hydrocarbonValue[],humidityValue[];
+//float oxygenValue[],co2Value[],hydrocarbonValue[];
 private HashMap<String,String> buildingSensor =new HashMap<String,String>();
 private String keys[]={"B05","B06418","B08","B01","B06419","B07","B08","B04","B13","B11","B12","B15"};
 private String values[]={
@@ -92,7 +91,6 @@ for (int i = 0; i <= values.length-1; i++) {
 float[] oxygenValue = new float[oxygenTable.getRowCount()];
 float[] co2Value = new float[co2Table.getRowCount()];
 float[] hydrocarbonValue = new float[hydrocarbonTable.getRowCount()];
-float[] humidityValue = new float[humidityTable.getRowCount()];
 //Getting O2 Values
  for(int i =0; i<=(oxygenTable.getRowCount())-1;i++){
     
@@ -123,15 +121,7 @@ float[] humidityValue = new float[humidityTable.getRowCount()];
     
   //println(hydrocarbonValue[i]);
  }
-
-//Getting values for Humidity
-for(int i =0; i<=(humidityTable.getRowCount())-4;i++){
-    humidityValue[i] = humidityTable.getFloat(i,1);  
-  //println(humidityValue[i]);
-  
- }
  
- dsHumidity=downSample(humidityValue,sampleSize);
   dsHydroCarbon=downSample(hydrocarbonValue,sampleSize);
    dsOxygen=downSample(oxygenValue,sampleSize);
     dsCo2=downSample(co2Value,sampleSize);
@@ -140,7 +130,6 @@ for(int i =0; i<=(humidityTable.getRowCount())-4;i++){
       result[0]=dsOxygen;
       result[1]=dsCo2;
       result[2]=dsHydroCarbon;
-      result[3]=dsHumidity;
       
       //println(result[0]);
      return result;
