@@ -125,7 +125,7 @@ float[] humidityValue = new float[humidityTable.getRowCount()];
  }
 
 //Getting values for Humidity
-for(int i =0; i<=(humidityTable.getRowCount())-1;i++){
+for(int i =0; i<=(humidityTable.getRowCount())-4;i++){
     humidityValue[i] = humidityTable.getFloat(i,1);  
   //println(humidityValue[i]);
   
