@@ -103,7 +103,13 @@ class ColorField {
         hydrocarbon = (hydrocarbon + hydrocarbonn) / 2;
       }
 
-      float r = map(o2, 0, 3.0, 0, 255);
+      if (o2 > 4.0) {
+        o2 = 4.0;
+      }
+      if (co2 > 2000.0) {
+        co2 = 2000.0;
+      }
+      float r = map(o2, 0, 4.0, 0, 255);
       float b = map(co2, 0, 2000.0, 0, 255);
       // float g = map(hydrocarbon, 0, 10.0, 0, 255);
 
