@@ -63,7 +63,7 @@ class ColorField {
         fill(240);
         textLeading(5);
         textFont(font);
-        String shownText = "Level: "+level+"\nOxygen: "+ nf(o2, 0, 2) +"\nCo2: "+ nf(co2, 0, 2) +"\nHydroCarbon: "+ nf(hydrocarbon, 0, 2)+"\nHumidity: "+ nf(humidity, 0, 2);
+        String shownText = "Level: "+level+"\nOxygen: "+ nf(o2, 0, 2) +"\nCo2: "+ nf(co2, 0, 2) +"\nHydroCarbon: "+ nf(hydrocarbon, 0, 2);
         text(shownText, tx, ty);
         rectMode(CORNER);
         fill(255, 255);
@@ -105,7 +105,7 @@ class ColorField {
 
       float r = map(o2, 0, 3.0, 0, 255);
       float b = map(co2, 0, 2000.0, 0, 255);
-      float g = map(hydrocarbon, 0, 10.0, 0, 255);
+      // float g = map(hydrocarbon, 0, 10.0, 0, 255);
 
       for (int j=0; j<width; j++) {
         for (int k=0; k<height; k++) {
@@ -115,7 +115,7 @@ class ColorField {
           float distance = dist(x, y, j, k) / 27;
           float decay = (2.4 /(0.5 + (distance*distance/11.2))) / points.length;
 
-          pixels[index] += color(r * decay, 0, b * decay, g * decay);
+          pixels[index] += color(r * decay, 0, b * decay, 0);
         }
       }
     }

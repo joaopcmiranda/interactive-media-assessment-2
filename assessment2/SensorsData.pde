@@ -51,7 +51,8 @@ public String urlData(String passedBuildingSensor,String passedSensorName){
   
    String building_Sensor = buildingSensor.get(passedBuildingSensor);
  // String sensor_Name=sensorName.get(""+passedSensorName);
-  String url = "https://eif-research.feit.uts.edu.au/api/csv/?rFromDate=2024-08-01T00%3A00&rToDate=2024-08-30T23%3A59&rFamily=wasp&rSensor="+building_Sensor+"&rSubSensor="+passedSensorName+"";  
+
+  String url = "https://eif-research.feit.uts.edu.au/api/csv/?rFromDate=2024-09-26T22:53:16.804&rToDate=2024-09-29T22:53:16.804%3A59&rFamily=wasp&rSensor="+building_Sensor+"&rSubSensor="+passedSensorName+"";  
   return url;
 }
 //======================================================================================================================================

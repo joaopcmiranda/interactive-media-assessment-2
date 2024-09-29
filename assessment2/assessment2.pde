@@ -2,6 +2,9 @@ import controlP5.*;
 import beads.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 PImage img, maskImg, bleachedImg;
 color outlineColor = color(0, 0, 0);  // Black Outline
@@ -15,6 +18,9 @@ ArrayList<float[][]> data;
 String keys[] = {"B05", "B06418", "B08", "B01", "B06419", "B07", "B08", "B04", "B11", "B12"};
 int level[] = {  5, 6, 8, 1, 6, 7, 8, 4, 13, 11, 12};
 int totalData = keys.length;  // Total number of data to fetch
+
+String fromDate = "2024-09-26T22:53:16.804";
+String toDate = "2024-09-29T22:53:16.804";
 
 // A list of threads for parallel fetching
 ArrayList<FetchThread> threads = new ArrayList<FetchThread>();
@@ -143,7 +149,7 @@ void draw() {
     PFont fontT = createFont("arial", 13);
     textFont(fontT);
     textAlign(CENTER);
-    text("Time is set as a fraction of the total duration.\nPause time with 'space'.", width / 2, height - 50);
+    text(getTimeString(timePercentage) + "\nPause time with 'space'.", width / 2, height - 50);
 
     // Extract CO2 data from the first sensor and update the sound volume
     if (colorField.sensorData.length > 0) {
@@ -206,5 +212,31 @@ void applyBleachEffect() {
         }
       }
     }
+  }
+}
+
+
+// Function to get the date and time string based on the percentage
+
+String getTimeString(float percentage) {
+  try {
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+
+    Date startDate = dateFormat.parse(fromDate);
+    Date endDate = dateFormat.parse(toDate);
+
+    long timeDifference = endDate.getTime() - startDate.getTime();
+
+    long calculatedTime = (long)(percentage * timeDifference);
+
+    Date resultDate = new Date(startDate.getTime() + calculatedTime);
+
+    return dateFormat.format(resultDate);
+
+  }
+
+  catch(Exception e) {
+    e.printStackTrace();
+    return null;
   }
 }
