@@ -112,8 +112,8 @@ class ColorField {
           int index = j + k * width;
 
           // square decay using the distance from the current pixel to the current point
-          float distance = dist(x, y, j, k) / 150;
-          float decay = (1.0 /(1.0 + (distance*distance/1.7))) / points.length;
+          float distance = dist(x, y, j, k) / 27;
+          float decay = (2.4 /(0.5 + (distance*distance/11.2))) / points.length;
 
           pixels[index] += color(r * decay, 0, b * decay, g * decay);
         }
