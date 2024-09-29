@@ -3,6 +3,10 @@ import beads.*;
 import java.io.File;
 import java.util.ArrayList;
 
+PImage img, maskImg, bleachedImg;
+color outlineColor = color(0);  // Black for the outline
+color backgroundColor = color(255, 255, 255);  // White for the bleached background
+color lungFillColor = color(255, 182, 193);  // Light pink(example lung color)
 ControlP5 cp5;
 SensorData sensorData;
 ColorField colorField;
@@ -64,6 +68,21 @@ void setup() {
     d[i] = new SensorDataObject(level[i], 0, data.get(i)[0], data.get(i)[1], data.get(i)[2], data.get(i)[3]);
   }
   colorField = new ColorField(d, width, height);
+
+  // Load the lung image
+  img = loadImage("image.png");  // Make sure this points to your file
+  // Resize the image to fit within 800x800 canvas while maintaining aspect ratio
+  img.resize(800, 0);  // Resize while keeping aspect ratio
+  // Apply grayscale and threshold for the outline
+  img.filter(GRAY);  // Convert to grayscale
+  img.filter(THRESHOLD, 0.5);  // Apply threshold
+  // Create a mask image for the bleach effect
+  maskImg = img.copy();
+  // Create the bleached background image
+  bleachedImg = createImage(img.width, img.height, RGB);
+  // Apply the bleaching effect
+  applyBleachEffect();
+
 }
 
 void draw() {
@@ -90,6 +109,13 @@ void draw() {
   }
   
   soundController.smoothVolume(); // gadually change the actual volume
+
+  // Display the bleached image with the lung outline in 2D
+  hint(DISABLE_DEPTH_TEST);  // Disable depth test to allow 2D drawing over 3D
+  // Center the image on the canvas
+  image(bleachedImg,(width - bleachedImg.width) / 2,(height - bleachedImg.height) / 2);
+  hint(ENABLE_DEPTH_TEST);  // Re-enable depth test for future 3D drawings
+
 }
 
 // Thread class to fetch data in parallel
@@ -116,5 +142,30 @@ class FetchThread extends Thread {
 void keyPressed() {
   if (key == ' ') {
     pause = !pause;
+  }
+}
+
+// Function to apply custom colors and bleach effect
+void applyBleachEffect() {
+  for(int x = 0;
+  x < img.width;
+  x++) {
+    for(int y = 0;
+    y < img.height;
+    y++) {
+      color c = img.get(x, y);
+      // Check if the pixel is part of the lung outline(black) or background(white)
+      if (brightness(c) > 50) {
+        // Apply bleach to the background(custom color)
+        bleachedImg.set(x, y, backgroundColor);  // Custom background color
+      } else {
+        // Fill the lung with a custom color and keep the outline
+        if (brightness(c) < 30) {
+          bleachedImg.set(x, y, outlineColor);  // Outline color
+        } else {
+          bleachedImg.set(x, y, lungFillColor);  // Fill the lungs with the desired color
+        }
+      }
+    }
   }
 }
