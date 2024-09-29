@@ -44,7 +44,7 @@ class ColorField {
       PFont font = createFont("arial", 15);
       
       // see values box and text
-      if (mousePressed&&(abs(sX-mouseX)*abs(sX-mouseX)+ abs(sY-mouseY)*abs(sY-mouseY) <= 25*25) ) {
+      if (mousePressed&&(abs(sX-mouseX)*abs(sX-mouseX)+ abs(sY-mouseY)*abs(sY-mouseY) <= 50*50) ) {
         float mw = 140;
         float mh = 120;
         float mx = constrain(mouseX-3+mw/2, 30+mw/2, width-30-mw/2);

@@ -27,9 +27,9 @@ void setup() {
     .setPosition(width*0.3, height-100)
     .setSize(int(width*0.4), 30)
     .setFont(sliderF)
-    .setColorActive(color(224, 52, 107, 230))
-    .setColorForeground(color(98, 48, 81,230))
-    .setColorBackground(color(220, 180))
+    .setColorActive(color(193, 20, 34, 230))
+    .setColorForeground(color(90, 33, 51,140))
+    .setColorBackground(color(220, 150))
     .setRange(0, 1);
   sensorData = new SensorData();
   data = new ArrayList<float[][]>();
