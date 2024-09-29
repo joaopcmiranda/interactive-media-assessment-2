@@ -15,16 +15,19 @@ class SensorDataObject {
     this.humidity = humidity;
   }
 }
+
 class ColorField {
   PVector[] points;
   SensorDataObject[] sensorData;
 
   ColorField(SensorDataObject[] sensorData, int width, int height) {
+    int level[] = { 5, 6, 8, 1, 6, 7, 8, 4, 13, 11, 12 };
+    int position[] = { 250, 150, 80, width/2, width - 160, 250, 750, 600, 730, 300, 100 };
     this.sensorData = sensorData;
     this.points = new PVector[sensorData.length];
     for (int i = 0; i < sensorData.length; i++) {
-      float y = map(sensorData[i].level, -3, 18, 0, height);
-      float x = random(0, 1) * width;
+      float y = map(sensorData[i].level, 1, 13, 50, height-60);
+      float x = position[i];
       points[i] = new PVector(x, y);
     }
   }
@@ -110,7 +113,7 @@ class ColorField {
 
           // square decay using the distance from the current pixel to the current point
           float distance = dist(x, y, j, k) / 150;
-          float decay = (1.0 /(1.0 + distance*distance)) / points.length;
+          float decay = (1.0 /(1.0 + (distance*distance/1.7))) / points.length;
 
           pixels[index] += color(r * decay, 0, b * decay, g * decay);
         }
