@@ -22,17 +22,56 @@ class ColorField {
   ColorField(SensorDataObject[] sensorData, int width, int height) {
     this.sensorData = sensorData;
     this.points = new PVector[sensorData.length];
-    for(int i = 0;  i < sensorData.length;  i++) {
+    for (int i = 0; i < sensorData.length; i++) {
       float y = map(sensorData[i].level, -3, 18, 0, height);
       float x = random(0, 1) * width;
       points[i] = new PVector(x, y);
     }
   }
 
+  //see values when holding down
+  void heldDown() {
+    for (int i = 0; i<points.length; i++) {
+      //this was to see where the points were
+      //rect(points[i].x, points[i].y, 5, 5);
+      float sX = points[i].x;
+      float sY = points[i].y;
+      float o2 = sensorData[i].o2[(int)(timePercentage *(sensorData[i].o2.length - 1))];
+      float co2 = sensorData[i].co2[(int)(timePercentage *(sensorData[i].co2.length -1))];
+      float hydrocarbon = sensorData[i].hydrocarbon[(int)(timePercentage *(sensorData[i].hydrocarbon.length - 1))];
+      float humidity = sensorData[i].humidity[(int)(timePercentage *(sensorData[i].humidity.length - 1))];
+      int level = sensorData[i].level;
+      PFont font = createFont("arial", 15);
+      
+      // see values box and text
+      if (mousePressed&&(abs(sX-mouseX)*abs(sX-mouseX)+ abs(sY-mouseY)*abs(sY-mouseY) <= 50*50) ) {
+        float mw = 140;
+        float mh = 120;
+        float mx = constrain(mouseX-3+mw/2, 30+mw/2, width-30-mw/2);
+        float my = constrain(mouseY-4-(mh)/2, 30+mh/2, height-30-mh/2);
+        float tx = constrain(mouseX+mw/60, 30+mw/24, width-30-mw+mw/24);
+        float ty = constrain(mouseY-mh/3-4-(mh)/2, 30+(mh*1.5)/10, height-(mh)/3-30-mh/2);
+
+        //println(my, mx);
+        rectMode(CENTER);
+        fill(150, 180);
+        stroke(140, 180);
+        rect(mx, my, mw, mh, 10);
+        fill(240);
+        textLeading(5);
+        textFont(font);
+        String shownText = "Level: "+level+"\nOxygen: "+ nf(o2, 0, 2) +"\nCo2: "+ nf(co2, 0, 2) +"\nHydroCarbon: "+ nf(hydrocarbon, 0, 2)+"\nHumidity: "+ nf(humidity, 0, 2);
+        text(shownText, tx, ty);
+        rectMode(CORNER);
+        fill(255, 255);
+      }
+    }
+  }
+
   void paintColorField(float timePercentage) {
     loadPixels();
 
-    for(int i = 0; i < points.length; i++) {
+    for (int i = 0; i < points.length; i++) {
       float x = points[i].x;
       float y = points[i].y;
 
@@ -61,7 +100,7 @@ class ColorField {
         hydrocarbon = (hydrocarbon + hydrocarbonn) / 2;
       }
 
-      float r = map(o2, 0, 3.0, 0, 255); 
+      float r = map(o2, 0, 3.0, 0, 255);
       float b = map(co2, 0, 2000.0, 0, 255);
       float g = map(hydrocarbon, 0, 10.0, 0, 255);
 
